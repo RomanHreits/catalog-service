@@ -1,4 +1,7 @@
 package com.polarbookshop.catalogservice.exception;
 
-public class BookAlreadyExistsException {
+public class BookAlreadyExistsException extends RuntimeException {
+    public BookAlreadyExistsException(String isbn) {
+        super("Book with ISBN " + isbn + " already exists");
+    }
 }
