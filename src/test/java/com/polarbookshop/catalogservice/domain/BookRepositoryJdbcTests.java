@@ -20,7 +20,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @Import(DataConfig.class)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ActiveProfiles("integration")
-@TestPropertySource(properties = "spring.cloud.config.enabled=false")
 public class BookRepositoryJdbcTests {
     @Autowired
     private BookRepository bookRepository;
@@ -30,7 +29,7 @@ public class BookRepositoryJdbcTests {
 
     @Test
     void findBookByIsbnWhenExisting() {
-        String isbn = "1234567890";
+        String isbn = "1234567894";
         Book book = Book.of(isbn, "Test Book", "Test Author", 19.99);
         jdbcAggregateTemplate.insert(book);
 
