@@ -4,7 +4,6 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -24,14 +23,14 @@ public class BookValidationTest {
 
     @Test
     void whenAllFieldsCorrectThenValidationSucceeds() {
-        Book book = new Book("1234567890", "Title", "Author", 9.9);
+        Book book = Book.of("1234567890", "Title", "Author", 9.9);
         Set<ConstraintViolation<Book>> constraintViolations = validator.validate(book);
         assertTrue(constraintViolations.isEmpty());
     }
 
     @Test
     void whenIsbnDefinedButIncorrectThenValidationFails() {
-        Book book = new Book("123456789", "Title", "Author", 9.9);
+        Book book = Book.of("123456789", "Title", "Author", 9.9);
         Set<ConstraintViolation<Book>> constraintViolations = validator.validate(book);
         assertEquals(1, constraintViolations.size());
         assertTrue(constraintViolations.iterator().next().getMessage().contains("The ISBN format must be valid"));

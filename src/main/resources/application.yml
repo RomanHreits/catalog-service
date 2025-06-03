@@ -4,3 +4,47 @@ server:
     threads:
       max: 50 # maximum number of threads
       min-spare: 5 # minimum number of threads that should always keep running
+
+polar:
+  greeting: Welcome to the local book catalog!
+
+spring:
+  application:
+    name: catalog-service
+  config:
+    import: "optional:configserver:"
+  cloud:
+    config:
+      enabled: true
+      uri: http://localhost:8888 # URL of the config server
+      request-connect-timeout: 5000 # 5 seconds
+      request-read-timeout: 5000 # 5 seconds
+      fail-fast: true # fail fast if the config server is not reachable
+      retry:
+        max-attempts: 3 # maximum number of retry attempts
+        initial-interval: 1000 # initial interval between retries in milliseconds
+        max-interval: 2000 # maximum interval between retries in milliseconds
+        multiplier: 1.5 # multiplier for the interval between retries
+
+  flyway:
+    driver-class-name: org.postgresql.Driver
+
+
+  #  sql:
+#    init:
+#      mode: always
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    username: user
+    password: password
+    url: jdbc:postgresql://localhost:5432/polardb_catalog
+    hikari:
+      connection-timeout: 2000
+      maximum-pool-size: 5
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh
