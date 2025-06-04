@@ -19,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @DataJdbcTest
 @Import(DataConfig.class)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@TestPropertySource(properties = "spring.cloud.config.enabled=false")
 @ActiveProfiles("integration")
 public class BookRepositoryJdbcTests {
     @Autowired
