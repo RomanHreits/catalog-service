@@ -28,7 +28,7 @@ public class BookJsonTests {
 
     @Test
     void testDeserializeBook() throws Exception {
-        String jsonContent = "{\"isbn\":\"1234567890\",\"title\":\"Title\",\"author\":\"Author\",\"price\":9.9}";
+        String jsonContent = "{\"isbn\":\"1234567890\",\"title\":\"Title\",\"author\":\"Author\",\"price\":9.9,\"publisher\":\"TestPublisher\"}";
         Book book = json.parseObject(jsonContent);
         assertThat(book).usingRecursiveComparison().isEqualTo(Book.of("1234567890", "Title", "Author", 9.9, "TestPublisher"));
     }
