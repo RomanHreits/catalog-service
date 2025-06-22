@@ -31,7 +31,7 @@ public class BookRepositoryJdbcTests {
     @Test
     void findBookByIsbnWhenExisting() {
         String isbn = "1234567894";
-        Book book = Book.of(isbn, "Test Book", "Test Author", 19.99);
+        Book book = Book.of(isbn, "Test Book", "Test Author", 19.99, "Test Publisher");
         jdbcAggregateTemplate.insert(book);
 
         Optional<Book> actual = bookRepository.findByIsbn(isbn);
@@ -40,6 +40,6 @@ public class BookRepositoryJdbcTests {
         assertEquals(1, actual.get().version());
         assertNotNull(actual.get().createdDate());
         assertNotNull(actual.get().lastModifiedDate());
-
+        assertNotNull(actual.get().publisher());
     }
 }

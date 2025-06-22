@@ -19,7 +19,7 @@ spring:
       uri: http://localhost:8888 # URL of the config server
       request-connect-timeout: 5000 # 5 seconds
       request-read-timeout: 5000 # 5 seconds
-      fail-fast: true # fail fast if the config server is not reachable
+      fail-fast: false # fail fast if the config server is not reachable
       retry:
         max-attempts: 3 # maximum number of retry attempts
         initial-interval: 1000 # initial interval between retries in milliseconds

@@ -1,6 +1,11 @@
 name: Commit Stage
 on: push
 
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: romanhreits/catalog-service
+  VERSION: latest
+
 jobs:
   build:
     name: Build and Test
@@ -35,3 +40,48 @@ jobs:
         run: |
           chmod +x gradlew 
           ./gradlew build
+  package:
+    name: Package and Publish
+    if: ${{github.ref == 'refs/heads/main'}} # Only run on main branch
+    needs: build
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: read # Read access to the repository contents
+      packages: write # Write access to publish packages
+      security-events: write
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v3 # Checks out the current repository
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: 21
+          cache: gradle
+      - name: Build container image
+        run: |
+          chmod +x gradlew 
+          ./gradlew bootBuildImage \
+            --image-name=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
+      - name: OCI image vulnerability  scanning
+        uses: anchore/scan-action@v3
+        id: scan
+        with:
+          image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
+          fail-build: false # Do not fail the build if vulnerabilities are found
+          severity-cutoff: high # Only report vulnerabilities with high severity or higher
+          acs-report-enable: true # Enable ACS report generation
+      - name: Upload vulnerability report
+        uses: github/codeql-action/upload-sarif@v3
+        if: success() || failure()
+        with:
+          sarif_file: ${{steps.scan.outputs.sarif}}
+      - name: Log into container registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }} # GitHub username of the current user provided by GitHub Actions
+          password: ${{ secrets.GITHUB_TOKEN }} # Use GITHUB_TOKEN for authentication
+      - name: Publish container  image
+        run: |
+          docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}

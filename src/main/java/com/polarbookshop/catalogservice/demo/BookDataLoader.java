@@ -32,8 +32,8 @@ public class BookDataLoader {
     public void loadBookTestData() {
         bookRepository.deleteAll();
 
-        Book book = Book.of("1234567890", "Northern Lights", "Lyra Silverstar", 9.9);
-        Book book2 = Book.of("1234567891", "Polar Journey", "Iorek Palarson", 12.9);
+        Book book = Book.of("1234567890", "Northern Lights", "Lyra Silverstar", 9.9, "Polarsophia");
+        Book book2 = Book.of("1234567891", "Polar Journey", "Iorek Palarson", 12.9, "Polarsophia");
 
         bookRepository.saveAll(List.of(book, book2));
 
