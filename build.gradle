@@ -57,7 +57,7 @@ bootBuildImage {
     ]
     docker {
         publishRegistry {
-            url = project.findProperty("registryUrl`")
+            url = project.findProperty("registryUrl")
             username = project.findProperty("registryUsername")
             password = project.findProperty("registryToken")
         }
