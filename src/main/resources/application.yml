@@ -1,5 +1,6 @@
 server:
   port: 8082
+  shoutdown: graceful # graceful shutdown
   tomcat:
     threads:
       max: 50 # maximum number of threads
@@ -11,6 +12,8 @@ polar:
 spring:
   application:
     name: catalog-service
+    lifecycle:
+      timeout-per-shutdown-phase: 15s # timeout for graceful shutdown
   config:
     import: "optional:configserver:"
   cloud:

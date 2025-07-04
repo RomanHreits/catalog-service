@@ -40,6 +40,13 @@ jobs:
         run: |
           chmod +x gradlew 
           ./gradlew build
+
+      - name: Validate Kubernetes manifests
+        uses: docker://ghcr.io/yannh/kubeconform:latest
+        with:
+          entrypoint: '/kubeconform'
+          args: "-summary -output json k8s/"
+
   package:
     name: Package and Publish
     if: ${{github.ref == 'refs/heads/main'}} # Only run on main branch
