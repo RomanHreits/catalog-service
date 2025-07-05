@@ -1,6 +1,6 @@
 server:
   port: 8082
-  shoutdown: graceful # graceful shutdown
+  shutdown: graceful # graceful shutdown
   tomcat:
     threads:
       max: 50 # maximum number of threads
