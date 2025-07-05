@@ -12,8 +12,8 @@ polar:
 spring:
   application:
     name: catalog-service
-    lifecycle:
-      timeout-per-shutdown-phase: 15s # timeout for graceful shutdown
+  lifecycle:
+    timeout-per-shutdown-phase: 15s # timeout for graceful shutdown
   config:
     import: "optional:configserver:"
   cloud:
